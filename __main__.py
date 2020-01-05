@@ -234,7 +234,6 @@ def choose_chip():
         chip = int(input())
     return chip
 
-
 def result(grille, current_player):
     """
     Affiche le résultat du jeu une fois qu'il est terminé.
