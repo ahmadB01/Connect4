@@ -171,7 +171,6 @@ def victoire(grille, j):
         0 .|.|.|.|.|.|. 
           0 1 2 3 4 5 6 = col
     
-
     victoire(grille: list, j: int) -> bool
     """
     # Vérification pour une combinaison horizontale
@@ -261,7 +260,6 @@ def choose_chip():
         print('2 - O')
         chip = int(input())
     return chip
-
 
 def result(grille, current_player):
     """
