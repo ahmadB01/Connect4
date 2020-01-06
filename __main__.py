@@ -136,6 +136,42 @@ def victoire(grille, j):
     Retourne si dans tout le jeu une combinaison a été trouvée
     Parmi les fonctions horizontal, vertical et diagonal.
 
+    On limite la vérification à certaines cases selon la direction
+    étudiée.
+    Par exemple, dans le cas d'une combinaison horizontale,
+    l'indice col ne peut pas être supérieur à 3:
+
+  lig = 5 .|.|.|.|.|.|. 
+        4 .|.|.|.|.|.|. 
+        3 .|.|.|.|.|.|. 
+        2 .|.|.|.|.|.|. 
+        1 .|.|.|.|.|.|. 
+        0 .|.|.|.|X|X|X 
+          0 1 2 3 4 5 6 = col
+
+    Dans le cas d'une combinaison verticale,
+    l'indice lig ne peut pas être supérieur à 2:
+
+  lig = 5 X|.|.|.|.|.|. 
+        4 X|.|.|.|.|.|. 
+        3 X|.|.|.|.|.|. 
+        2 .|.|.|.|.|.|. 
+        1 .|.|.|.|.|.|. 
+        0 .|.|.|.|.|.|. 
+          0 1 2 3 4 5 6 = col
+
+    Même chose pour le cas
+    d'une combinaison diagonale :
+
+  lig = 5 .|.|.|.|.|X|. 
+        4 .|.|.|.|X|.|. 
+        3 .|.|.|X|.|.|. 
+        2 .|.|.|.|.|.|. 
+        1 .|.|.|.|.|.|. 
+        0 .|.|.|.|.|.|. 
+          0 1 2 3 4 5 6 = col
+    
+
     victoire(grille: list, j: int) -> bool
     """
     # Vérification pour une combinaison horizontale
@@ -149,18 +185,10 @@ def victoire(grille, j):
         for col in range(len(grille[lig])):
             if vertical(grille, j, lig, col):
                 return True
-
+            
     # Vérification pour une combinaison diagonale
-    # dans le premier sens (vers la droite)
     for lig in range(3):
-        for col in range(4):
-            if diagonal(grille, j, lig, col):
-                return True
-
-    # Vérification pour une combinaison diagonale
-    # dans l'autre sens (vers la gauche)
-    for lig in range(3):
-        for col in range(3, len(grille[lig])):
+        for col in range(len(grille[lig])):
             if diagonal(grille, j, lig, col):
                 return True
 
@@ -233,6 +261,7 @@ def choose_chip():
         print('2 - O')
         chip = int(input())
     return chip
+
 
 def result(grille, current_player):
     """
