@@ -2,6 +2,8 @@
 # pour la méthode coup_aleatoire(grille, j)
 from random import choice
 
+from time import sleep
+
 # Cette liste permet lors de l'affichage
 # de transformer les nombres dans la liste grille
 # en leur icône respectif
@@ -60,10 +62,10 @@ def jouer(grille, j, col):
     jouer(grille: list, j: int, col: int) -> None
     """
     # Parcourt chaque ligne du jeu de bas en haut
-    for l in range(len(grille)):            
+    for lig in range(len(grille)):            
         # pour vérifier si un coup est possible dans la colonne col
-        if grille[l][col] == 0:
-            grille[l][col] = j
+        if grille[lig][col] == 0:
+            grille[lig][col] = j
             # Si un coup est possible, alors il est inutile
             # de continuer de vérifier les autres lignes
             break;
@@ -115,21 +117,16 @@ def diagonal(grille, j, lig, col):
 
     diagonal(grille: list, j: int, lig: int, col: int) -> bool
     """
-    # Dans le premier sens (vers la droite)
-    if col < 4:
-        combination = [grille[lig+i][col+i] for i in range(4)]
-        if combination == [j]*4:
-            return True
-    # S'il n'y a eu aucune combinaison dans le premier sens,
-    # on vérifie dans l'autre sens (vers la gauche)
-    if col > 2:
-        combination = [grille[lig+i][col-i] for i in range(4)]
-        if combination == [j]*4:
-            return True
+    combination = []
 
-    # Si aucune combinaison n'a été trouvée, alors la fonction
-    # retourne faux
-    return False
+    # On parcourt les 4 lignes à partir de
+    # l'indice lig entré en paramètre
+    for i in range(4):
+        # On détermine le sens de la combinaison
+        # à partir de l'indice col entré en paramètre
+        offset = col+i if col < 4 else col-i
+        combination.append(grille[lig+i][offset])
+    return combination == [j]*4
 
 def victoire(grille, j):
     """
@@ -235,11 +232,11 @@ def play(grille, j):
     play(grille: list, j: int) -> None
     """
     col = -1
-    
+        
     # Vérifie que le nombre entré est bien compris entre 1 et 7
     while col not in list(range(7)):
         col = int(input('Colonne à jouer : '))-1
-        
+            
     # Vérifie si un coup est possible à cette case
     while not coup_possible(grille, col):
         col = int(input('Colonne à jouer : '))-1
@@ -385,6 +382,7 @@ def rand_vs_rand():
         else:
             current_player = 1
         affiche(grille)
+        sleep(1)
         
     # Affiche le résultat de la partie une fois terminée
     result(grille, current_player)
@@ -453,6 +451,7 @@ def main():
             break
 
     print('Au revoir !')
+    input()
 
 # On lance le programme principal
 main()
